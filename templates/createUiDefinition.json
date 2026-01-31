@@ -1,0 +1,94 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/uiDefinition.json#",
+  "version": "1.0.0",
+  "handler": "Microsoft.Compute.VirtualMachine",
+  "parameters": {
+    "basics": [
+      {
+        "name": "vmName",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Virtual machine name",
+        "toolTip": "Name for the VM resource.",
+        "defaultValue": "clawdbot-vm",
+        "constraints": {
+          "required": true,
+          "regex": "^[a-zA-Z0-9-]{1,64}$",
+          "validationMessage": "Use 1-64 letters, numbers, or hyphens."
+        }
+      },
+      {
+        "name": "location",
+        "type": "Microsoft.Common.Location",
+        "label": "Region",
+        "toolTip": "Azure region for deployment.",
+        "defaultValue": "eastus"
+      },
+      {
+        "name": "adminUsername",
+        "type": "Microsoft.Common.TextBox",
+        "label": "Admin username",
+        "toolTip": "Linux admin username.",
+        "defaultValue": "clawdbot",
+        "constraints": {
+          "required": true,
+          "regex": "^[a-z_][a-z0-9_-]{2,31}$",
+          "validationMessage": "Use 3-32 chars: lowercase letters, numbers, underscores, or hyphens."
+        }
+      },
+      {
+        "name": "sshPublicKey",
+        "type": "Microsoft.Common.SshPublicKey",
+        "label": "SSH public key",
+        "toolTip": "Paste your SSH public key."
+      },
+      {
+        "name": "vmSize",
+        "type": "Microsoft.Compute.SizeSelector",
+        "label": "VM size",
+        "toolTip": "Choose the VM size for the deployment.",
+        "recommendedSizes": [
+          "Standard_B1ms"
+        ],
+        "constraints": {
+          "allowedSizes": [
+            "Standard_B1ms",
+            "Standard_B2ms",
+            "Standard_B4ms"
+          ]
+        }
+      }
+    ],
+    "steps": [
+      {
+        "name": "networking",
+        "label": "Networking",
+        "elements": [
+          {
+            "name": "dnsLabelPrefix",
+            "type": "Microsoft.Common.TextBox",
+            "label": "DNS label prefix",
+            "toolTip": "Public DNS label prefix for the VM.",
+            "defaultValue": "clawdbot",
+            "constraints": {
+              "required": true,
+              "regex": "^[a-z0-9-]{3,63}$",
+              "validationMessage": "Use 3-63 lowercase letters, numbers, or hyphens."
+            }
+          }
+        ]
+      }
+    ],
+    "outputs": {
+      "vmName": "[basics('vmName')]",
+      "location": "[basics('location')]",
+      "adminUsername": "[basics('adminUsername')]",
+      "sshPublicKey": "[basics('sshPublicKey')]",
+      "vmSize": "[basics('vmSize')]",
+      "dnsLabelPrefix": "[steps('networking').dnsLabelPrefix]",
+      "publisher": "clawdbot",
+      "offer": "clawdbot-vm",
+      "sku": "clawdbot-ubuntu-2404",
+      "version": "latest"
+    }
+  }
+}
