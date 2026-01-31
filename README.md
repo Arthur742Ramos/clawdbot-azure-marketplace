@@ -1,4 +1,4 @@
-# Clawdbot Azure Marketplace VM
+# OpenClawVM - Azure Marketplace Image
 
 Build and publish a production-ready Ubuntu 24.04 VM image for the Azure Marketplace with Clawdbot preinstalled and a delightful onboarding flow.
 

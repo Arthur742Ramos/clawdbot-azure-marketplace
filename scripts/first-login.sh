@@ -59,5 +59,10 @@ case "$reply" in
     ;;
 esac
 
+# Set default model to gpt-5.2-codex if onboarding created a config
+if [[ -f "$CONFIG_DIR/clawdbot.json" ]] && command -v clawdbot-set-default-model >/dev/null 2>&1; then
+  clawdbot-set-default-model || true
+fi
+
 install -d -m 0700 "$CONFIG_DIR"
 date -u +"%Y-%m-%dT%H:%M:%SZ" > "$PROMPTED_FILE"

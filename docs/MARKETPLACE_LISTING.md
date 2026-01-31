@@ -1,7 +1,7 @@
-# Azure Marketplace Listing - Clawdbot AI Agent VM
+# Azure Marketplace Listing - OpenClawVM
 
 ## Offer Name
-**Clawdbot AI Agent VM**
+**OpenClawVM**
 
 ## Short Description (256 chars max)
 Pre-configured Ubuntu VM with Clawdbot AI agent gateway and coding tools. Supports Claude, GPT, Gemini, GitHub Copilot, and more. Connect to WhatsApp, Telegram, Discord, or use directly via SSH.
@@ -9,7 +9,7 @@ Pre-configured Ubuntu VM with Clawdbot AI agent gateway and coding tools. Suppor
 ## Long Description
 
 ### Overview
-Clawdbot AI Agent VM is a ready-to-run Ubuntu virtual machine pre-loaded with everything you need to run AI agents in the cloud:
+OpenClawVM is a ready-to-run Ubuntu virtual machine pre-loaded with everything you need to run AI agents in the cloud:
 
 - **Clawdbot Gateway** - AI agent orchestration with multi-channel messaging
 - **OpenCode** - Coding agent supporting multiple LLM providers

@@ -185,6 +185,7 @@ ln -sf "$INSTALL_SCRIPTS/first-boot.sh" /usr/local/bin/clawdbot-first-boot
 ln -sf "$INSTALL_SCRIPTS/prepare-image.sh" /usr/local/bin/clawdbot-prepare-image
 ln -sf "$INSTALL_SCRIPTS/create-vm.sh" /usr/local/bin/clawdbot-create-vm
 ln -sf "$INSTALL_SCRIPTS/capture-image.sh" /usr/local/bin/clawdbot-capture-image
+ln -sf "$INSTALL_SCRIPTS/set-default-model.sh" /usr/local/bin/clawdbot-set-default-model
 
 log "Configuring global environment"
 cat > /etc/profile.d/clawdbot.sh <<'PROFILE'
