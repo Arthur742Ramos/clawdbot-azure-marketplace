@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -u
+set -Eeuo pipefail
 
 if [[ "${EUID}" -eq 0 ]]; then
   exit 0
@@ -17,15 +17,25 @@ if [[ "${CLAWDBOT_SKIP_FIRST_LOGIN:-}" == "1" ]]; then
   exit 0
 fi
 
-DONE_FILE="$HOME/.config/clawdbot/quickstart.done"
-SKIP_FILE="$HOME/.config/clawdbot/quickstart.skipped"
+CONFIG_DIR="$HOME/.config/clawdbot"
+DONE_FILE="$CONFIG_DIR/quickstart.done"
+PROMPTED_FILE="$CONFIG_DIR/first-login.done"
 
-if [[ -f "$DONE_FILE" || -f "$SKIP_FILE" ]]; then
+if [[ -f "$DONE_FILE" || -f "$PROMPTED_FILE" ]]; then
   exit 0
 fi
 
+on_interrupt() {
+  printf '%s\n' "Cancelled. Run later with: clawdbot-quickstart"
+  exit 130
+}
+
+trap on_interrupt INT TERM
+
 if ! command -v clawdbot-quickstart >/dev/null 2>&1; then
-  printf '%s\n' "Clawdbot quickstart is not installed. Run: sudo /opt/clawdbot/scripts/setup.sh"
+  printf '%s\n' "Clawdbot quickstart is not installed. Run: sudo /usr/local/bin/clawdbot-setup"
+  install -d -m 0700 "$CONFIG_DIR"
+  touch "$PROMPTED_FILE"
   exit 0
 fi
 
@@ -40,8 +50,9 @@ case "$reply" in
     clawdbot-quickstart || true
     ;;
   *)
-    install -d -m 0700 "$HOME/.config/clawdbot"
-    touch "$SKIP_FILE"
     printf '%s\n' "You can run it later with: clawdbot-quickstart"
     ;;
 esac
+
+install -d -m 0700 "$CONFIG_DIR"
+date -u +"%Y-%m-%dT%H:%M:%SZ" > "$PROMPTED_FILE"

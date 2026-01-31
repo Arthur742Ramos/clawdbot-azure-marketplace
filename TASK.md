@@ -22,7 +22,7 @@ Automated installation script that configures a fresh Ubuntu 24.04 VM with:
 Cloud-init compatible script that runs on first boot:
 - Creates welcome MOTD
 - Marks initialization complete
-- Guides user to run `clawdbot wizard`
+- Guides user to run `clawdbot-quickstart`
 
 ### 3. Image Prep Script (`scripts/prepare-image.sh`)
 Script to run before capturing the VM image:
@@ -66,8 +66,8 @@ Playwright: chromium-1208
 - puppeteer-core
 
 ### Systemd Service (user-level)
-Path: ~/.config/systemd/user/clawdbot-gateway.service
-Enabled with: loginctl enable-linger $USER
+Path: /etc/systemd/user/clawdbot-gateway.service
+Enabled with: systemctl --user enable --now clawdbot-gateway.service
 
 ### Environment Variables
 - PATH includes ~/.npm-global/bin
@@ -95,3 +95,4 @@ Enabled with: loginctl enable-linger $USER
 8. docs/PUBLISHING.md
 9. README.md (comprehensive)
 10. .gitignore
+11. systemd/clawdbot-gateway.service

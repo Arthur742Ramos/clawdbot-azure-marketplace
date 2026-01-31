@@ -7,7 +7,17 @@ log() { printf '[%s] %s\n' "$SCRIPT_NAME" "$*"; }
 err() { printf '[%s] ERROR: %s\n' "$SCRIPT_NAME" "$*" >&2; }
 die() { err "$*"; exit 1; }
 
-trap 'err "Failed at line $LINENO: $BASH_COMMAND"' ERR
+on_error() {
+  err "Failed at line $LINENO: $BASH_COMMAND"
+}
+
+on_interrupt() {
+  err "Cancelled by user."
+  exit 130
+}
+
+trap on_error ERR
+trap on_interrupt INT TERM
 
 if [[ "${EUID}" -ne 0 ]]; then
   die "Run as root (sudo)"
@@ -21,23 +31,31 @@ fi
 
 log "Writing welcome MOTD"
 cat > /etc/motd <<'EOF'
-Welcome to the Clawdbot Azure Marketplace VM
+==============================================================================
+                         Clawdbot Azure Marketplace VM
+==============================================================================
 
 This VM ships with:
-- Node.js 22.x
-- Clawdbot + agent-browser
-- Playwright with Chromium
-- OpenCode
-- GitHub CLI
-- A user-level systemd service for the Clawdbot gateway
+  - Node.js 22.x
+  - Clawdbot + agent-browser
+  - Playwright with Chromium
+  - OpenCode
+  - GitHub CLI
+  - A user-level systemd service for the Clawdbot gateway
 
 Next steps:
-1) Run: clawdbot-quickstart
-2) Try: clawdbot agent "hello world"
-3) Check service: systemctl --user status clawdbot-gateway.service
+  1) Run: clawdbot-quickstart
+  2) Try: clawdbot agent "hello world"
+  3) Check service: systemctl --user status clawdbot-gateway.service
+
+Tips:
+  - OpenCode needs a PTY: ssh -tt <user>@<host>
+  - Docs: /opt/clawdbot/README.md
 EOF
 
 install -d -m 0755 /var/lib/clawdbot
 date -u +"%Y-%m-%dT%H:%M:%SZ" > "$MARKER"
 
 log "First boot tasks complete"
+
+# Test: sudo ./scripts/first-boot.sh

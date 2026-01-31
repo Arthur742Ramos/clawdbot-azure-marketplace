@@ -8,6 +8,7 @@ err() { printf '[%s] ERROR: %s\n' "$SCRIPT_NAME" "$*" >&2; }
 die() { err "$*"; exit 1; }
 
 trap 'err "Failed at line $LINENO: $BASH_COMMAND"' ERR
+trap 'err "Cancelled by user."; exit 130' INT TERM
 
 usage() {
   cat <<'EOF'
@@ -60,6 +61,10 @@ TARGET_REGIONS="${TARGET_REGIONS:-$LOCATION}"
 
 if [[ -z "$IMAGE_VERSION" ]]; then
   die "IMAGE_VERSION is required (format: X.Y.Z)"
+fi
+
+if [[ ! "$IMAGE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  die "IMAGE_VERSION must match X.Y.Z"
 fi
 
 MANAGED_IMAGE_NAME="${MANAGED_IMAGE_NAME:-${IMAGE_DEF_NAME}-$(echo "$IMAGE_VERSION" | tr '.' '-')}"

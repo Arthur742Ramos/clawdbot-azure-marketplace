@@ -8,6 +8,7 @@ err() { printf '[%s] ERROR: %s\n' "$SCRIPT_NAME" "$*" >&2; }
 die() { err "$*"; exit 1; }
 
 trap 'err "Failed at line $LINENO: $BASH_COMMAND"' ERR
+trap 'err "Cancelled by user."; exit 130' INT TERM
 
 usage() {
   cat <<'EOF'

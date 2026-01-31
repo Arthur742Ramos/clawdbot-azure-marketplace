@@ -1,0 +1,17 @@
+[Unit]
+Description=Clawdbot Gateway
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+Environment=UNDICI_NO_HTTP2=1
+EnvironmentFile=-%h/.config/clawdbot/env
+ExecStart=/usr/local/bin/clawdbot gateway start
+Restart=on-failure
+RestartSec=5
+WorkingDirectory=%h
+
+[Install]
+WantedBy=default.target

@@ -31,7 +31,7 @@ systemctl --user status clawdbot-gateway.service
 4. Prepare the VM for capture
 
 ```
-sudo ./scripts/prepare-image.sh --force
+sudo clawdbot-prepare-image --force
 ```
 
 ## 2) Capture to Shared Image Gallery
