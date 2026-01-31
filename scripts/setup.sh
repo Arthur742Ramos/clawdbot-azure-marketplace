@@ -47,23 +47,24 @@ install_motd() {
 ==============================================================================
 
 Get started:
-  1) Run: clawdbot-quickstart
+  clawdbot onboard
 
-Pre-installed tools:
-  - clawdbot     - AI agent gateway
-  - opencode     - Coding agent (OpenCode)
-  - codex        - OpenAI Codex CLI
-  - claude       - Claude Code CLI
-  - gh copilot   - GitHub Copilot CLI
+Pre-installed coding agents:
+  opencode    - OpenCode (supports GitHub Copilot, Anthropic, OpenAI, etc.)
+  codex       - OpenAI Codex CLI
+  claude      - Claude Code CLI
+  gh copilot  - GitHub Copilot CLI
 
-Configure your LLM provider:
-  - GitHub Copilot: Authenticate with `gh auth login`
-  - API keys: Set ANTHROPIC_API_KEY, OPENAI_API_KEY, etc.
-  - Or run: clawdbot configure --section model
+LLM options (choose during onboard):
+  - GitHub Copilot (run: gh auth login)
+  - Anthropic API key
+  - OpenAI API key
+  - OpenRouter, Gemini, and more
 
 Tips:
-  - Coding agents need a PTY: ssh -tt <user>@<host>
-  - Docs: /opt/clawdbot/README.md
+  - Use ssh -tt for coding agents (TTY required)
+  - Docs: https://docs.clawd.bot
+==============================================================================
 MOTD
 }
 

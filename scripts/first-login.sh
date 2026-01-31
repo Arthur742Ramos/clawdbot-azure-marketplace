@@ -1,56 +1,61 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+# Skip if root
 if [[ "${EUID}" -eq 0 ]]; then
   exit 0
 fi
 
+# Skip if non-interactive
 if [[ "$-" != *i* ]]; then
   exit 0
 fi
 
+# Skip if no TTY
 if [[ ! -t 0 || ! -t 1 ]]; then
   exit 0
 fi
 
+# Skip if disabled
 if [[ "${CLAWDBOT_SKIP_FIRST_LOGIN:-}" == "1" ]]; then
   exit 0
 fi
 
-CONFIG_DIR="$HOME/.config/clawdbot"
-DONE_FILE="$CONFIG_DIR/quickstart.done"
-PROMPTED_FILE="$CONFIG_DIR/first-login.done"
+CONFIG_DIR="$HOME/.clawdbot"
+PROMPTED_FILE="$CONFIG_DIR/.first-login.done"
 
-if [[ -f "$DONE_FILE" || -f "$PROMPTED_FILE" ]]; then
+# Skip if already prompted
+if [[ -f "$PROMPTED_FILE" || -f "$CONFIG_DIR/clawdbot.json" ]]; then
   exit 0
 fi
 
 on_interrupt() {
-  printf '%s\n' "Cancelled. Run later with: clawdbot-quickstart"
+  printf '%s\n' "Cancelled. Run later with: clawdbot onboard"
   exit 130
 }
 
 trap on_interrupt INT TERM
 
-if ! command -v clawdbot-quickstart >/dev/null 2>&1; then
-  printf '%s\n' "Clawdbot quickstart is not installed. Run: sudo /usr/local/bin/clawdbot-setup"
+if ! command -v clawdbot >/dev/null 2>&1; then
+  printf '%s\n' "Clawdbot is not installed."
   install -d -m 0700 "$CONFIG_DIR"
   touch "$PROMPTED_FILE"
   exit 0
 fi
 
 printf '\n'
-printf '%s\n' "Welcome to Clawdbot."
-printf '%s\n' "Run 'clawdbot-quickstart' to authenticate GitHub Copilot and connect channels."
-read -r -p "Start now? [Y/n] " reply
+printf '%s\n' "Welcome to Clawdbot!"
+printf '%s\n' "Run 'clawdbot onboard' to configure your LLM provider and start the gateway."
+printf '\n'
+read -r -p "Start onboarding now? [Y/n] " reply
 reply="${reply:-Y}"
 
 case "$reply" in
   y|Y|yes|YES)
-    clawdbot-quickstart || true
+    clawdbot onboard || true
     ;;
   *)
-    printf '%s\n' "You can run it later with: clawdbot-quickstart"
+    printf '%s\n' "You can run it later with: clawdbot onboard"
     ;;
 esac
 
