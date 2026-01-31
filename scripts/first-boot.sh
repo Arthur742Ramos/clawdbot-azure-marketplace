@@ -27,11 +27,14 @@ This VM ships with:
 - Node.js 22.x
 - Clawdbot + agent-browser
 - Playwright with Chromium
+- OpenCode
+- GitHub CLI
 - A user-level systemd service for the Clawdbot gateway
 
 Next steps:
-1) Run: clawdbot wizard
-2) Check service: systemctl --user status clawdbot-gateway.service
+1) Run: clawdbot-quickstart
+2) Try: clawdbot agent "hello world"
+3) Check service: systemctl --user status clawdbot-gateway.service
 EOF
 
 install -d -m 0755 /var/lib/clawdbot

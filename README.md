@@ -15,6 +15,8 @@ This repository provides:
 
 - `scripts/setup.sh` - Install Node.js, Clawdbot, Playwright, and service configuration
 - `scripts/first-boot.sh` - Cloud-init compatible first-boot setup
+- `scripts/quickstart.sh` - End-user onboarding (GitHub auth, channels, Copilot env)
+- `scripts/first-login.sh` - One-time first-SSH prompt for quickstart
 - `scripts/prepare-image.sh` - Deprovision and cleanup before capture
 - `scripts/create-vm.sh` - Create a VM for image building
 - `scripts/capture-image.sh` - Capture VM to a Shared Image Gallery
@@ -61,6 +63,46 @@ sudo ./scripts/prepare-image.sh --force
 IMAGE_VERSION=1.0.0 ./scripts/capture-image.sh
 ```
 
+## Marketplace onboarding (end users)
+
+After a customer deploys the VM from Azure Marketplace:
+
+1) SSH into the VM
+2) Run `clawdbot-quickstart`
+3) Follow the prompts to authenticate GitHub Copilot and optionally connect channels
+
+Enterprise or non-interactive setup options:
+
+- Provide a token via env vars: `CLAWDBOT_GITHUB_TOKEN`, `GITHUB_TOKEN`, or `GH_TOKEN`
+- Or drop a token file at `~/.config/clawdbot/seed/github_token` or `/var/lib/clawdbot/secrets/github_token` (must be user-readable)
+- Token must belong to a user with Copilot access
+- Run: `clawdbot-quickstart --non-interactive --auth-method token --no-channels`
+- For GitHub Enterprise, add `--github-host github.example.com`
+
+Example cloud-init:
+
+```
+#cloud-config
+write_files:
+  - path: /home/azureuser/.config/clawdbot/seed/github_token
+    owner: azureuser:azureuser
+    permissions: '0600'
+    content: ghp_xxx
+runcmd:
+  - [ sudo, -u, azureuser, "--", "clawdbot-quickstart", "--non-interactive", "--auth-method", "token", "--no-channels" ]
+```
+
+Security notes:
+
+- GitHub CLI stores tokens in `~/.config/gh/hosts.yml` (600)
+- Quickstart writes `~/.config/clawdbot/env` (600) to export `COPILOT_GITHUB_TOKEN` and configures the gateway service when present
+- Seed token files are removed after successful login (unless provided via `--token-file`)
+- Remove those files and run `gh auth logout` to revoke
+
+If auth fails:
+
+- Re-run `clawdbot-quickstart`, or skip with `--skip-auth` to continue without Copilot
+
 ## Script details
 
 ### `scripts/setup.sh`
@@ -70,6 +112,8 @@ Installs:
 - npm global prefix under `~/.npm-global`
 - Clawdbot, agent-browser, Playwright
 - Chromium system package
+- GitHub CLI (`gh`)
+- Onboarding helpers (`clawdbot-quickstart`, first-login prompt)
 - User systemd service for `clawdbot-gateway`
 
 Environment variables:
@@ -82,6 +126,8 @@ Environment variables:
 Notes:
 - The script sets `UNDICI_NO_HTTP2=1` for shell sessions and the systemd service.
 - The service uses `%h/.npm-global/bin/clawdbot gateway start` by default.
+- Login shells source `~/.config/clawdbot/env` when present (for Copilot auth export).
+- Set `CLAWDBOT_SKIP_FIRST_LOGIN=1` to disable the first-login quickstart prompt.
 
 ### `scripts/first-boot.sh`
 
@@ -96,6 +142,18 @@ Example cloud-init usage:
 runcmd:
   - [ bash, -c, "/opt/clawdbot/first-boot.sh" ]
 ```
+
+### `scripts/quickstart.sh`
+
+Interactive onboarding for end users that:
+- Authenticates GitHub Copilot (device flow or token)
+- Exports Copilot token to `~/.config/clawdbot/env`
+- Optionally configures `clawdbot-gateway.service` to load the token
+- Prompts to add messaging channels
+
+### `scripts/first-login.sh`
+
+First-login prompt that runs `clawdbot-quickstart` once per user (opt-out via `CLAWDBOT_SKIP_FIRST_LOGIN=1`).
 
 ### `scripts/prepare-image.sh`
 

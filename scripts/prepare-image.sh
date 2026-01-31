@@ -50,6 +50,9 @@ for home_dir in /root /home/*; do
   rm -rf "$home_dir/.cache/clawdbot" "$home_dir/.cache/azure"
 done
 
+log "Removing Clawdbot machine state"
+rm -rf /var/lib/clawdbot/first-boot.done /var/lib/clawdbot/secrets
+
 log "Clearing logs and temporary files"
 rm -f /var/log/wtmp /var/log/btmp /var/log/lastlog
 find /var/log -type f -name "*.log" -exec truncate -s 0 {} + || true
