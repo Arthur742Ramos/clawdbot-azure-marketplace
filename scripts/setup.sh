@@ -46,13 +46,23 @@ install_motd() {
                          Clawdbot Azure Marketplace VM
 ==============================================================================
 
-Next steps:
+Get started:
   1) Run: clawdbot-quickstart
-  2) Try: clawdbot agent "hello world"
-  3) Check service: systemctl --user status clawdbot-gateway.service
+
+Pre-installed tools:
+  - clawdbot     - AI agent gateway
+  - opencode     - Coding agent (OpenCode)
+  - codex        - OpenAI Codex CLI
+  - claude       - Claude Code CLI
+  - gh copilot   - GitHub Copilot CLI
+
+Configure your LLM provider:
+  - GitHub Copilot: Authenticate with `gh auth login`
+  - API keys: Set ANTHROPIC_API_KEY, OPENAI_API_KEY, etc.
+  - Or run: clawdbot configure --section model
 
 Tips:
-  - OpenCode needs a PTY: ssh -tt <user>@<host>
+  - Coding agents need a PTY: ssh -tt <user>@<host>
   - Docs: /opt/clawdbot/README.md
 MOTD
 }
@@ -120,6 +130,31 @@ if [[ "$INSTALL_OPENCODE" -eq 1 ]]; then
 else
   warn "Skipping OpenCode install (INSTALL_OPENCODE=0)"
 fi
+
+INSTALL_CODEX="${INSTALL_CODEX:-1}"
+if [[ "$INSTALL_CODEX" -eq 1 ]]; then
+  log "Installing Codex CLI"
+  npm install -g @openai/codex 2>/dev/null || warn "Codex CLI install failed (optional)"
+  if command -v codex &>/dev/null; then
+    log "Codex CLI $(codex --version 2>/dev/null || echo 'installed')"
+  fi
+else
+  warn "Skipping Codex CLI install (INSTALL_CODEX=0)"
+fi
+
+INSTALL_CLAUDE_CODE="${INSTALL_CLAUDE_CODE:-1}"
+if [[ "$INSTALL_CLAUDE_CODE" -eq 1 ]]; then
+  log "Installing Claude Code"
+  npm install -g @anthropic-ai/claude-code 2>/dev/null || warn "Claude Code install failed (optional)"
+  if command -v claude &>/dev/null; then
+    log "Claude Code $(claude --version 2>/dev/null || echo 'installed')"
+  fi
+else
+  warn "Skipping Claude Code install (INSTALL_CLAUDE_CODE=0)"
+fi
+
+log "Installing GitHub Copilot CLI extension"
+gh extension install github/gh-copilot 2>/dev/null || warn "gh-copilot extension install failed (optional)"
 
 log "Installing Clawdbot assets"
 install -d -m 0755 "$INSTALL_ROOT" "$INSTALL_SCRIPTS" "$INSTALL_DOCS" "$INSTALL_TEMPLATES"

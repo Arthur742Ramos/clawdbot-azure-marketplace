@@ -604,15 +604,16 @@ main() {
   fi
 
   if [[ "$SKIP_AUTH" -eq 1 ]]; then
-    warn "Skipping GitHub authentication. Copilot features may be unavailable."
+    warn "Skipping GitHub authentication."
   else
-    info "Authenticating GitHub Copilot"
+    info "Authenticating with GitHub"
+    info "This enables: gh CLI, GitHub Copilot (if subscribed), and coding agents"
     if ! ensure_gh_auth; then
       warn "GitHub authentication not completed."
-      if confirm "Continue without Copilot authentication?" "N"; then
+      if confirm "Continue without GitHub authentication?" "Y"; then
         SKIP_AUTH=1
       else
-        die "Authentication required. Re-run: clawdbot-quickstart (or use --skip-auth to proceed without Copilot)"
+        die "Authentication required. Re-run: clawdbot-quickstart (or use --skip-auth)"
       fi
     else
       secure_gh_files
@@ -622,21 +623,17 @@ main() {
       else
         case "$?" in
           2)
-            err "No Copilot subscription detected for this account."
-            info "Assign a Copilot seat in GitHub or use an account with access."
+            info "No Copilot subscription detected (optional - you can use API keys instead)"
             ;;
           *)
-            err "Unable to validate Copilot subscription."
+            info "Could not validate Copilot subscription (optional)"
             ;;
         esac
         if [[ -n "$COPILOT_ERROR" ]]; then
           warn "$COPILOT_ERROR"
         fi
-        if confirm "Continue without Copilot?" "N"; then
-          SKIP_AUTH=1
-        else
-          die "Copilot validation required. Re-run: clawdbot-quickstart (or use --skip-auth to proceed without Copilot)"
-        fi
+        info "You can configure LLM providers later with: clawdbot configure --section model"
+        SKIP_AUTH=1
       fi
     fi
   fi
@@ -653,10 +650,10 @@ main() {
   ok "Quickstart complete"
   ok "You're all set. Enjoy Clawdbot!"
   if [[ "$SKIP_AUTH" -eq 1 ]]; then
-    warn "Copilot authentication was skipped or incomplete."
-    info "To retry: clawdbot-quickstart"
+    info "Configure LLM: clawdbot configure --section model"
+    info "Or set API keys: ANTHROPIC_API_KEY, OPENAI_API_KEY, etc."
   else
-    ok "Copilot is ready"
+    ok "GitHub Copilot is ready"
   fi
 
   if command -v opencode >/dev/null 2>&1; then
