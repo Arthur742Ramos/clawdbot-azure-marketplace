@@ -9,7 +9,7 @@
         "type": "Microsoft.Common.TextBox",
         "label": "Virtual machine name",
         "toolTip": "Name for the VM resource.",
-        "defaultValue": "clawdbot-vm",
+        "defaultValue": "openclaw-vm",
         "constraints": {
           "required": true,
           "regex": "^[a-zA-Z0-9-]{1,64}$",
@@ -28,7 +28,7 @@
         "type": "Microsoft.Common.TextBox",
         "label": "Admin username",
         "toolTip": "Linux admin username.",
-        "defaultValue": "clawdbot",
+        "defaultValue": "openclaw",
         "constraints": {
           "required": true,
           "regex": "^[a-z_][a-z0-9_-]{2,31}$",
@@ -68,7 +68,7 @@
             "type": "Microsoft.Common.TextBox",
             "label": "DNS label prefix",
             "toolTip": "Public DNS label prefix for the VM.",
-            "defaultValue": "clawdbot",
+            "defaultValue": "openclaw",
             "constraints": {
               "required": true,
               "regex": "^[a-z0-9-]{3,63}$",
@@ -85,9 +85,9 @@
       "sshPublicKey": "[basics('sshPublicKey')]",
       "vmSize": "[basics('vmSize')]",
       "dnsLabelPrefix": "[steps('networking').dnsLabelPrefix]",
-      "publisher": "clawdbot",
-      "offer": "clawdbot-vm",
-      "sku": "clawdbot-ubuntu-2404",
+      "publisher": "openclaw",
+      "offer": "openclaw-vm",
+      "sku": "openclaw-ubuntu-2404",
       "version": "latest"
     }
   }

@@ -15,16 +15,16 @@ usage() {
 Usage: ./create-vm.sh
 
 Environment variables:
-  RESOURCE_GROUP        Resource group name (default: clawdbot-image-rg)
+  RESOURCE_GROUP        Resource group name (default: openclaw-image-rg)
   LOCATION              Azure region (default: eastus)
-  VM_NAME               VM name (default: clawdbot-image-builder)
-  ADMIN_USERNAME        Admin username (default: clawdbot)
+  VM_NAME               VM name (default: openclaw-image-builder)
+  ADMIN_USERNAME        Admin username (default: openclaw)
   VM_SIZE               VM size (default: Standard_B1ms)
   OS_DISK_SIZE_GB       OS disk size in GB (default: 30)
   IMAGE                 Azure image (default: Ubuntu2404)
   SSH_PUBLIC_KEY        SSH public key string
   SSH_PUBLIC_KEY_PATH   SSH public key path (default: use generated keys)
-  TAGS                  Tags string (default: role=clawdbot-image-builder)
+  TAGS                  Tags string (default: role=openclaw-image-builder)
 EOF
 }
 
@@ -39,14 +39,14 @@ fi
 
 az account show >/dev/null 2>&1 || die "Not logged in to Azure CLI. Run: az login"
 
-RESOURCE_GROUP="${RESOURCE_GROUP:-clawdbot-image-rg}"
+RESOURCE_GROUP="${RESOURCE_GROUP:-openclaw-image-rg}"
 LOCATION="${LOCATION:-eastus}"
-VM_NAME="${VM_NAME:-clawdbot-image-builder}"
-ADMIN_USERNAME="${ADMIN_USERNAME:-clawdbot}"
+VM_NAME="${VM_NAME:-openclaw-image-builder}"
+ADMIN_USERNAME="${ADMIN_USERNAME:-openclaw}"
 VM_SIZE="${VM_SIZE:-Standard_B1ms}"
 OS_DISK_SIZE_GB="${OS_DISK_SIZE_GB:-30}"
 IMAGE="${IMAGE:-Ubuntu2404}"
-TAGS="${TAGS:-role=clawdbot-image-builder}"
+TAGS="${TAGS:-role=openclaw-image-builder}"
 SSH_PUBLIC_KEY="${SSH_PUBLIC_KEY:-}"
 SSH_PUBLIC_KEY_PATH="${SSH_PUBLIC_KEY_PATH:-}"
 

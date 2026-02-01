@@ -4,7 +4,7 @@
   "parameters": {
     "vmName": {
       "type": "string",
-      "defaultValue": "clawdbot-vm",
+      "defaultValue": "openclaw-vm",
       "metadata": {
         "description": "Virtual machine name."
       }
@@ -30,7 +30,7 @@
     },
     "adminUsername": {
       "type": "string",
-      "defaultValue": "clawdbot",
+      "defaultValue": "openclaw",
       "minLength": 3,
       "metadata": {
         "description": "Admin username for the VM."
@@ -110,21 +110,21 @@
     },
     "publisher": {
       "type": "string",
-      "defaultValue": "clawdbot",
+      "defaultValue": "openclaw",
       "metadata": {
         "description": "Marketplace publisher ID."
       }
     },
     "offer": {
       "type": "string",
-      "defaultValue": "clawdbot-vm",
+      "defaultValue": "openclaw-vm",
       "metadata": {
         "description": "Marketplace offer ID."
       }
     },
     "sku": {
       "type": "string",
-      "defaultValue": "clawdbot-ubuntu-2404",
+      "defaultValue": "openclaw-ubuntu-2404",
       "metadata": {
         "description": "Marketplace plan SKU."
       }
@@ -139,8 +139,8 @@
     "tags": {
       "type": "object",
       "defaultValue": {
-        "publisher": "clawdbot",
-        "workload": "clawdbot-gateway"
+        "publisher": "openclaw",
+        "workload": "openclaw-gateway"
       },
       "metadata": {
         "description": "Resource tags."

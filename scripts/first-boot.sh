@@ -23,7 +23,7 @@ if [[ "${EUID}" -ne 0 ]]; then
   die "Run as root (sudo)"
 fi
 
-MARKER="/var/lib/clawdbot/first-boot.done"
+MARKER="/var/lib/openclaw/first-boot.done"
 if [[ -f "$MARKER" ]]; then
   log "First boot already completed"
   exit 0
@@ -32,28 +32,28 @@ fi
 log "Writing welcome MOTD"
 cat > /etc/motd <<'EOF'
 ==============================================================================
-                         Clawdbot Azure Marketplace VM
+                         Openclaw Azure Marketplace VM
 ==============================================================================
 
 This VM ships with:
   - Node.js 22.x
-  - Clawdbot + agent-browser
+  - Openclaw + agent-browser
   - Playwright with Chromium
   - OpenCode
   - GitHub CLI
-  - A user-level systemd service for the Clawdbot gateway
+  - A user-level systemd service for the Openclaw gateway
 
 Next steps:
-  1) Run: clawdbot-quickstart
-  2) Try: clawdbot agent "hello world"
-  3) Check service: systemctl --user status clawdbot-gateway.service
+  1) Run: openclaw-quickstart
+  2) Try: openclaw agent "hello world"
+  3) Check service: systemctl --user status openclaw-gateway.service
 
 Tips:
   - OpenCode needs a PTY: ssh -tt <user>@<host>
-  - Docs: /opt/clawdbot/README.md
+  - Docs: /opt/openclaw/README.md
 EOF
 
-install -d -m 0755 /var/lib/clawdbot
+install -d -m 0755 /var/lib/openclaw
 date -u +"%Y-%m-%dT%H:%M:%SZ" > "$MARKER"
 
 log "First boot tasks complete"

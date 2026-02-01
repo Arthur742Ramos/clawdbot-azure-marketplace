@@ -15,17 +15,17 @@ usage() {
 Usage: ./capture-image.sh
 
 Environment variables:
-  RESOURCE_GROUP        VM resource group (default: clawdbot-image-rg)
-  VM_NAME               VM name (default: clawdbot-image-builder)
+  RESOURCE_GROUP        VM resource group (default: openclaw-image-rg)
+  VM_NAME               VM name (default: openclaw-image-builder)
   LOCATION              Azure region (default: eastus)
   SIG_RESOURCE_GROUP    SIG resource group (default: RESOURCE_GROUP)
-  GALLERY_NAME          SIG gallery name (default: clawdbotGallery)
-  IMAGE_DEF_NAME        Image definition name (default: clawdbotUbuntu2404)
+  GALLERY_NAME          SIG gallery name (default: openclawGallery)
+  IMAGE_DEF_NAME        Image definition name (default: openclawUbuntu2404)
   IMAGE_VERSION         Image version (required, format: X.Y.Z)
   MANAGED_IMAGE_NAME    Managed image name (default: derived from IMAGE_DEF_NAME/VERSION)
-  PUBLISHER             Image publisher (default: clawdbot)
-  OFFER                 Image offer (default: clawdbot-vm)
-  SKU                   Image SKU (default: clawdbot-ubuntu-2404)
+  PUBLISHER             Image publisher (default: openclaw)
+  OFFER                 Image offer (default: openclaw-vm)
+  SKU                   Image SKU (default: openclaw-ubuntu-2404)
   HYPERV_GEN            Hyper-V generation (default: V2)
   REPLICA_COUNT         Replica count (default: 1)
   STORAGE_ACCOUNT_TYPE  Storage account type (default: Standard_LRS)
@@ -44,16 +44,16 @@ fi
 
 az account show >/dev/null 2>&1 || die "Not logged in to Azure CLI. Run: az login"
 
-RESOURCE_GROUP="${RESOURCE_GROUP:-clawdbot-image-rg}"
-VM_NAME="${VM_NAME:-clawdbot-image-builder}"
+RESOURCE_GROUP="${RESOURCE_GROUP:-openclaw-image-rg}"
+VM_NAME="${VM_NAME:-openclaw-image-builder}"
 LOCATION="${LOCATION:-eastus}"
 SIG_RESOURCE_GROUP="${SIG_RESOURCE_GROUP:-$RESOURCE_GROUP}"
-GALLERY_NAME="${GALLERY_NAME:-clawdbotGallery}"
-IMAGE_DEF_NAME="${IMAGE_DEF_NAME:-clawdbotUbuntu2404}"
+GALLERY_NAME="${GALLERY_NAME:-openclawGallery}"
+IMAGE_DEF_NAME="${IMAGE_DEF_NAME:-openclawUbuntu2404}"
 IMAGE_VERSION="${IMAGE_VERSION:-}"
-PUBLISHER="${PUBLISHER:-clawdbot}"
-OFFER="${OFFER:-clawdbot-vm}"
-SKU="${SKU:-clawdbot-ubuntu-2404}"
+PUBLISHER="${PUBLISHER:-openclaw}"
+OFFER="${OFFER:-openclaw-vm}"
+SKU="${SKU:-openclaw-ubuntu-2404}"
 HYPERV_GEN="${HYPERV_GEN:-V2}"
 REPLICA_COUNT="${REPLICA_COUNT:-1}"
 STORAGE_ACCOUNT_TYPE="${STORAGE_ACCOUNT_TYPE:-Standard_LRS}"

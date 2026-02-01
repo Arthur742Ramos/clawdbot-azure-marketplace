@@ -1,7 +1,7 @@
-# Clawdbot Azure Marketplace VM
+# Openclaw Azure Marketplace VM
 
 ## Goal
-Create everything needed to publish a Clawdbot VM image to Azure Marketplace.
+Create everything needed to publish a Openclaw VM image to Azure Marketplace.
 
 ## What We're Building
 
@@ -9,12 +9,12 @@ Create everything needed to publish a Clawdbot VM image to Azure Marketplace.
 Automated installation script that configures a fresh Ubuntu 24.04 VM with:
 - Node.js 22.x (via NodeSource)
 - npm global prefix configuration
-- Clawdbot (npm global)
+- Openclaw (npm global)
 - Playwright + Chromium browser
 - OpenCode binary (optional AI coding agent)
 - agent-browser (npm global)
 - Required system packages (git, curl, jq, chromium-browser)
-- Systemd user service for clawdbot-gateway
+- Systemd user service for openclaw-gateway
 - Environment variables (UNDICI_NO_HTTP2=1 for 421 fix)
 - loginctl enable-linger for persistent service
 
@@ -22,7 +22,7 @@ Automated installation script that configures a fresh Ubuntu 24.04 VM with:
 Cloud-init compatible script that runs on first boot:
 - Creates welcome MOTD
 - Marks initialization complete
-- Guides user to run `clawdbot-quickstart`
+- Guides user to run `openclaw-quickstart`
 
 ### 3. Image Prep Script (`scripts/prepare-image.sh`)
 Script to run before capturing the VM image:
@@ -53,28 +53,28 @@ Script to run before capturing the VM image:
 ```
 Node.js: v22.22.0
 npm: 10.9.4
-Clawdbot: 2026.1.24-3
+Openclaw: 2026.1.24-3
 OpenCode: 1.1.36
 Playwright: chromium-1208
 ```
 
 ### npm Global Packages
-- clawdbot
+- openclaw
 - @github (copilot SDK)
 - agent-browser
 - playwright
 - puppeteer-core
 
 ### Systemd Service (user-level)
-Path: /etc/systemd/user/clawdbot-gateway.service
-Enabled with: systemctl --user enable --now clawdbot-gateway.service
+Path: /etc/systemd/user/openclaw-gateway.service
+Enabled with: systemctl --user enable --now openclaw-gateway.service
 
 ### Environment Variables
 - PATH includes ~/.npm-global/bin
 - UNDICI_NO_HTTP2=1 (fixes 421 errors after idle)
 
 ### Disk Usage
-- Clawdbot + deps: ~1.6 GB
+- Openclaw + deps: ~1.6 GB
 - Playwright browsers: ~622 MB
 - OpenCode: ~142 MB
 - Total: ~2.5 GB (30 GB disk sufficient)
@@ -95,4 +95,4 @@ Enabled with: systemctl --user enable --now clawdbot-gateway.service
 8. docs/PUBLISHING.md
 9. README.md (comprehensive)
 10. .gitignore
-11. systemd/clawdbot-gateway.service
+11. systemd/openclaw-gateway.service

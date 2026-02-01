@@ -4,14 +4,14 @@
 **OpenClawVM**
 
 ## Short Description (256 chars max)
-Pre-configured Ubuntu VM with Clawdbot AI agent gateway and coding tools. Supports Claude, GPT, Gemini, GitHub Copilot, and more. Connect to WhatsApp, Telegram, Discord, or use directly via SSH.
+Pre-configured Ubuntu VM with Openclaw AI agent gateway and coding tools. Supports Claude, GPT, Gemini, GitHub Copilot, and more. Connect to WhatsApp, Telegram, Discord, or use directly via SSH.
 
 ## Long Description
 
 ### Overview
 OpenClawVM is a ready-to-run Ubuntu virtual machine pre-loaded with everything you need to run AI agents in the cloud:
 
-- **Clawdbot Gateway** - AI agent orchestration with multi-channel messaging
+- **Openclaw Gateway** - AI agent orchestration with multi-channel messaging
 - **OpenCode** - Coding agent supporting multiple LLM providers
 - **Codex CLI** - OpenAI's coding assistant
 - **Claude Code** - Anthropic's coding agent
@@ -39,7 +39,7 @@ Connect your agent to:
 ### Getting Started
 1. Deploy the VM from Azure Marketplace
 2. SSH into your instance: `ssh <username>@<public-ip>`
-3. Run the setup wizard: `clawdbot onboard`
+3. Run the setup wizard: `openclaw onboard`
 4. Choose your LLM provider and configure channels
 5. Start chatting with your AI agent!
 
@@ -52,7 +52,7 @@ Connect your agent to:
 ### What's Included
 - Ubuntu 24.04 LTS (minimal, hardened)
 - Node.js 22 LTS
-- Clawdbot (latest stable)
+- Openclaw (latest stable)
 - OpenCode, Codex CLI, Claude Code
 - GitHub CLI with Copilot extension
 - Playwright browsers for web automation
@@ -90,10 +90,10 @@ This VM image is free. You pay only for Azure compute resources:
 ## Support
 - Documentation: https://docs.clawd.bot
 - Community: https://discord.com/invite/clawd
-- Issues: https://github.com/clawdbot/clawdbot/issues
+- Issues: https://github.com/openclaw/openclaw/issues
 
 ## Legal
-- Publisher: Clawdbot
+- Publisher: Openclaw
 - License: MIT (open source)
 - Privacy Policy: https://clawd.bot/privacy
 - Terms of Use: https://clawd.bot/terms

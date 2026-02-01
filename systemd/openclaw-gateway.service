@@ -1,5 +1,5 @@
 [Unit]
-Description=Clawdbot Gateway
+Description=Openclaw Gateway
 After=network-online.target
 Wants=network-online.target
 
@@ -7,8 +7,8 @@ Wants=network-online.target
 Type=simple
 Environment=PATH=/usr/local/bin:/usr/bin:/bin
 Environment=UNDICI_NO_HTTP2=1
-EnvironmentFile=-%h/.config/clawdbot/env
-ExecStart=/usr/local/bin/clawdbot gateway start
+EnvironmentFile=-%h/.config/openclaw/env
+ExecStart=/usr/local/bin/openclaw gateway start
 Restart=on-failure
 RestartSec=5
 WorkingDirectory=%h

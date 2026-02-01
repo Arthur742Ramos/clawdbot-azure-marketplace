@@ -5,7 +5,7 @@ SCRIPT_NAME="$(basename "$0")"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-INSTALL_ROOT="/opt/clawdbot"
+INSTALL_ROOT="/opt/openclaw"
 INSTALL_SCRIPTS="$INSTALL_ROOT/scripts"
 INSTALL_DOCS="$INSTALL_ROOT/docs"
 INSTALL_TEMPLATES="$INSTALL_ROOT/templates"
@@ -43,11 +43,11 @@ install_motd() {
   log "Setting MOTD"
   cat > /etc/motd <<'MOTD'
 ==============================================================================
-                         Clawdbot Azure Marketplace VM
+                         Openclaw Azure Marketplace VM
 ==============================================================================
 
 Get started:
-  clawdbot onboard
+  openclaw onboard
 
 Pre-installed coding agents:
   opencode    - OpenCode (supports GitHub Copilot, Anthropic, OpenAI, etc.)
@@ -100,9 +100,9 @@ apt-get update -y
 apt-get install -y --no-install-recommends nodejs
 log "Node.js $(node --version) installed"
 
-log "Installing Clawdbot and npm packages system-wide"
-npm install -g clawdbot agent-browser playwright
-log "Clawdbot $(clawdbot --version) installed"
+log "Installing Openclaw and npm packages system-wide"
+npm install -g openclaw agent-browser playwright
+log "Openclaw $(openclaw --version) installed"
 
 INSTALL_PLAYWRIGHT_BROWSERS="${INSTALL_PLAYWRIGHT_BROWSERS:-1}"
 if [[ "$INSTALL_PLAYWRIGHT_BROWSERS" -eq 1 ]]; then
@@ -157,7 +157,7 @@ fi
 log "Installing GitHub Copilot CLI extension"
 gh extension install github/gh-copilot 2>/dev/null || warn "gh-copilot extension install failed (optional)"
 
-log "Installing Clawdbot assets"
+log "Installing Openclaw assets"
 install -d -m 0755 "$INSTALL_ROOT" "$INSTALL_SCRIPTS" "$INSTALL_DOCS" "$INSTALL_TEMPLATES"
 if [[ -f "$REPO_ROOT/README.md" ]]; then
   install -m 0644 "$REPO_ROOT/README.md" "$INSTALL_ROOT/README.md"
@@ -178,49 +178,49 @@ for script in setup.sh quickstart.sh first-login.sh first-boot.sh prepare-image.
 done
 
 log "Creating symlinks in /usr/local/bin"
-ln -sf "$INSTALL_SCRIPTS/setup.sh" /usr/local/bin/clawdbot-setup
-ln -sf "$INSTALL_SCRIPTS/quickstart.sh" /usr/local/bin/clawdbot-quickstart
-ln -sf "$INSTALL_SCRIPTS/first-login.sh" /usr/local/bin/clawdbot-first-login
-ln -sf "$INSTALL_SCRIPTS/first-boot.sh" /usr/local/bin/clawdbot-first-boot
-ln -sf "$INSTALL_SCRIPTS/prepare-image.sh" /usr/local/bin/clawdbot-prepare-image
-ln -sf "$INSTALL_SCRIPTS/create-vm.sh" /usr/local/bin/clawdbot-create-vm
-ln -sf "$INSTALL_SCRIPTS/capture-image.sh" /usr/local/bin/clawdbot-capture-image
+ln -sf "$INSTALL_SCRIPTS/setup.sh" /usr/local/bin/openclaw-setup
+ln -sf "$INSTALL_SCRIPTS/quickstart.sh" /usr/local/bin/openclaw-quickstart
+ln -sf "$INSTALL_SCRIPTS/first-login.sh" /usr/local/bin/openclaw-first-login
+ln -sf "$INSTALL_SCRIPTS/first-boot.sh" /usr/local/bin/openclaw-first-boot
+ln -sf "$INSTALL_SCRIPTS/prepare-image.sh" /usr/local/bin/openclaw-prepare-image
+ln -sf "$INSTALL_SCRIPTS/create-vm.sh" /usr/local/bin/openclaw-create-vm
+ln -sf "$INSTALL_SCRIPTS/capture-image.sh" /usr/local/bin/openclaw-capture-image
 
 log "Configuring global environment"
-cat > /etc/profile.d/clawdbot.sh <<'PROFILE'
+cat > /etc/profile.d/openclaw.sh <<'PROFILE'
 export UNDICI_NO_HTTP2=1
 export PLAYWRIGHT_BROWSERS_PATH=/usr/local/share/ms-playwright
-if [ -f "$HOME/.config/clawdbot/env" ]; then
-  . "$HOME/.config/clawdbot/env"
+if [ -f "$HOME/.config/openclaw/env" ]; then
+  . "$HOME/.config/openclaw/env"
 fi
 PROFILE
 
 log "Installing first-login hook"
-cat > /etc/profile.d/clawdbot-first-login.sh <<'PROFILE'
-if [ -x /usr/local/bin/clawdbot-first-login ]; then
-  /usr/local/bin/clawdbot-first-login || true
+cat > /etc/profile.d/openclaw-first-login.sh <<'PROFILE'
+if [ -x /usr/local/bin/openclaw-first-login ]; then
+  /usr/local/bin/openclaw-first-login || true
 fi
 PROFILE
 
 log "Installing systemd user service"
 install -d -m 0755 /etc/systemd/user
-if [[ -f "$REPO_ROOT/systemd/clawdbot-gateway.service" ]]; then
-  install -m 0644 "$REPO_ROOT/systemd/clawdbot-gateway.service" \
-    /etc/systemd/user/clawdbot-gateway.service
+if [[ -f "$REPO_ROOT/systemd/openclaw-gateway.service" ]]; then
+  install -m 0644 "$REPO_ROOT/systemd/openclaw-gateway.service" \
+    /etc/systemd/user/openclaw-gateway.service
 else
-  warn "Missing systemd/clawdbot-gateway.service (service not installed)"
+  warn "Missing systemd/openclaw-gateway.service (service not installed)"
 fi
 
 install_motd
 
-install -d -m 0755 /var/lib/clawdbot/secrets
+install -d -m 0755 /var/lib/openclaw/secrets
 
 log "Cleaning apt cache"
 apt-get clean
 rm -rf /var/lib/apt/lists/*
 
 log "Setup complete!"
-log "Next: users should run 'clawdbot-quickstart' on first login"
+log "Next: users should run 'openclaw-quickstart' on first login"
 
 # Test: sudo ./scripts/setup.sh
 # Test: INSTALL_OPENCODE=0 INSTALL_PLAYWRIGHT_BROWSERS=0 sudo ./scripts/setup.sh

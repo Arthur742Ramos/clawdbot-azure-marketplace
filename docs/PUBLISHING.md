@@ -16,8 +16,8 @@ To publish to Azure Marketplace, you need:
 - ✅ Generalized VM image in Azure Compute Gallery
 - ✅ TrustedLaunch / Gen2 VM support
 - ✅ Ubuntu 24.04 LTS base
-- Gallery: `ClawdbotGallery` in `CLAWDBOT-IMAGE-RG`
-- Image Definition: `clawdbot-vm-tl`
+- Gallery: `OpenclawGallery` in `CLAWDBOT-IMAGE-RG`
+- Image Definition: `openclaw-vm-tl`
 - Latest Version: `1.0.20260130`
 
 ## Publishing Steps
@@ -30,8 +30,8 @@ To publish to Azure Marketplace, you need:
 
 ### Step 2: Create a New Offer
 1. In Partner Center → Marketplace offers → + New offer → Azure Virtual Machine
-2. Offer ID: `clawdbot-vm` (cannot change later)
-3. Offer alias: `Clawdbot AI Agent VM`
+2. Offer ID: `openclaw-vm` (cannot change later)
+3. Offer alias: `Openclaw AI Agent VM`
 
 ### Step 3: Offer Setup
 - **Selling through Microsoft**: No (bring your own license / free)
@@ -59,8 +59,8 @@ Use content from `MARKETPLACE_LISTING.md`:
 2. **Pricing model**: Free
 3. **VM images**: 
    - Source: Azure Compute Gallery
-   - Gallery: `/subscriptions/ddb0b48c-aa74-4420-bf1b-49a3f7eaa970/resourceGroups/CLAWDBOT-IMAGE-RG/providers/Microsoft.Compute/galleries/ClawdbotGallery`
-   - Image: `clawdbot-vm-tl`
+   - Gallery: `/subscriptions/ddb0b48c-aa74-4420-bf1b-49a3f7eaa970/resourceGroups/CLAWDBOT-IMAGE-RG/providers/Microsoft.Compute/galleries/OpenclawGallery`
+   - Image: `openclaw-vm-tl`
    - Version: `1.0.20260130`
 4. **VM sizes**: Recommend B2s, B2ms; allow B1s-D4s range
 5. **OS disk type**: StandardSSD_LRS or Premium_LRS

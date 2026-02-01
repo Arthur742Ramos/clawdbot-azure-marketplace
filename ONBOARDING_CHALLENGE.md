@@ -1,4 +1,4 @@
-# Clawdbot Azure Marketplace - Zero-Friction Onboarding Challenge
+# Openclaw Azure Marketplace - Zero-Friction Onboarding Challenge
 
 ## The Goal
 User deploys VM from Azure Marketplace → SSHs in → runs ONE command → everything works.
@@ -11,8 +11,8 @@ User deploys VM from Azure Marketplace → SSHs in → runs ONE command → ever
 - User needs: GitHub account + Copilot subscription
 - Token needs to be stored securely
 
-### 2. Clawdbot Gateway Setup  
-- `clawdbot onboard` is interactive wizard
+### 2. Openclaw Gateway Setup  
+- `openclaw onboard` is interactive wizard
 - Requires choosing: LLM provider, API keys, channels
 - WhatsApp requires QR code scanning
 - Telegram requires BotFather token
@@ -67,9 +67,9 @@ gh auth login --with-token
 
 4. **What should the "one command" experience look like?**
    ```bash
-   clawdbot quickstart
+   openclaw quickstart
    # or
-   ./setup-clawdbot.sh
+   ./setup-openclaw.sh
    ```
 
 5. **Can we use Azure Managed Identity for anything?**
@@ -80,25 +80,25 @@ gh auth login --with-token
 ## Proposed Architecture
 
 ### Tier 1: Instant CLI Access (no auth needed)
-- Clawdbot CLI works immediately for local tasks
-- `clawdbot agent --local "hello"` works with NO setup
+- Openclaw CLI works immediately for local tasks
+- `openclaw agent --local "hello"` works with NO setup
 - Uses a bundled/free model? Or requires first auth?
 
 ### Tier 2: GitHub Copilot (one-time device auth)
-- `clawdbot auth github` triggers device flow
-- Token stored in `~/.clawdbot/credentials/`
+- `openclaw auth github` triggers device flow
+- Token stored in `~/.openclaw/credentials/`
 - Enables: Copilot models, OpenCode, coding agents
 
 ### Tier 3: Messaging Channels (optional, per-channel)
-- `clawdbot channel add whatsapp` → QR code
-- `clawdbot channel add telegram` → paste token
+- `openclaw channel add whatsapp` → QR code
+- `openclaw channel add telegram` → paste token
 - Each channel is opt-in
 
 ## Ideal User Journey
 
 1. Deploy VM from Azure Marketplace
 2. SSH in, see welcome MOTD
-3. Run: `clawdbot quickstart`
+3. Run: `openclaw quickstart`
 4. Quickstart:
    - "Let's authenticate with GitHub Copilot"
    - Shows device code: "Go to github.com/login/device, enter: ABCD-1234"
@@ -106,7 +106,7 @@ gh auth login --with-token
    - "✅ Authenticated! You have Copilot Enterprise access"
    - "Want to add a messaging channel? (WhatsApp/Telegram/Skip)"
    - If WhatsApp: shows QR code in terminal
-   - "✅ Setup complete! Try: clawdbot agent 'hello world'"
+   - "✅ Setup complete! Try: openclaw agent 'hello world'"
 5. Done in <5 minutes
 
 ## Files to Create/Update
@@ -114,7 +114,7 @@ gh auth login --with-token
 1. `scripts/setup.sh` - Pre-install gh CLI
 2. `scripts/first-login.sh` - Runs on first SSH, triggers quickstart
 3. Update MOTD to guide user
-4. Consider: Custom `clawdbot quickstart` command? Or wrapper script?
+4. Consider: Custom `openclaw quickstart` command? Or wrapper script?
 
 ## Open Questions for Deep Thinking
 

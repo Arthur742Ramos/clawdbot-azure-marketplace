@@ -39,14 +39,14 @@ log "Stopping user gateway services where possible"
 for home_dir in /home/*; do
   [[ -d "$home_dir" ]] || continue
   user_name="$(basename "$home_dir")"
-  if [[ -f "$home_dir/.config/systemd/user/clawdbot-gateway.service" || \
-        -f "/etc/systemd/user/clawdbot-gateway.service" ]]; then
+  if [[ -f "$home_dir/.config/systemd/user/openclaw-gateway.service" || \
+        -f "/etc/systemd/user/openclaw-gateway.service" ]]; then
     user_id="$(id -u "$user_name" 2>/dev/null || true)"
     if [[ -n "$user_id" ]]; then
       runtime_dir="/run/user/$user_id"
       if [[ -d "$runtime_dir" ]]; then
         sudo -u "$user_name" XDG_RUNTIME_DIR="$runtime_dir" \
-          systemctl --user stop clawdbot-gateway.service || true
+          systemctl --user stop openclaw-gateway.service || true
       fi
     fi
   fi
@@ -63,27 +63,27 @@ for home_dir in /root /home/*; do
   rm -f "$home_dir/.ssh/authorized_keys" "$home_dir/.ssh/known_hosts" || true
   rm -rf "$home_dir/.ssh" || true
 
-  rm -rf "$home_dir/.config/clawdbot" \
+  rm -rf "$home_dir/.config/openclaw" \
     "$home_dir/.config/gh" \
     "$home_dir/.config/opencode" \
     "$home_dir/.config/github-copilot" || true
 
   rm -rf "$home_dir/.local/share/gh" \
     "$home_dir/.local/share/opencode" \
-    "$home_dir/.local/share/clawdbot" || true
+    "$home_dir/.local/share/openclaw" || true
 
-  rm -rf "$home_dir/.cache/clawdbot" \
+  rm -rf "$home_dir/.cache/openclaw" \
     "$home_dir/.cache/gh" \
     "$home_dir/.cache/opencode" \
     "$home_dir/.cache/ms-playwright" || true
 
   rm -rf "$home_dir/.azure" "$home_dir/.npm" || true
 
-  rm -f "$home_dir/.config/systemd/user/clawdbot-gateway.service.d/10-copilot.conf" || true
+  rm -f "$home_dir/.config/systemd/user/openclaw-gateway.service.d/10-copilot.conf" || true
 done
 
-log "Removing Clawdbot machine state"
-rm -rf /var/lib/clawdbot/secrets /var/lib/clawdbot/first-boot.done
+log "Removing Openclaw machine state"
+rm -rf /var/lib/openclaw/secrets /var/lib/openclaw/first-boot.done
 
 log "Resetting machine-id"
 truncate -s 0 /etc/machine-id
@@ -106,18 +106,18 @@ else
 fi
 
 log "Leaving first-run breadcrumbs"
-install -d -m 0755 /var/lib/clawdbot
-cat > /var/lib/clawdbot/README_FIRST_RUN.txt <<'EOF'
-Welcome to Clawdbot on Azure Marketplace.
+install -d -m 0755 /var/lib/openclaw
+cat > /var/lib/openclaw/README_FIRST_RUN.txt <<'EOF'
+Welcome to Openclaw on Azure Marketplace.
 
 Next steps:
   1) SSH into the VM
-  2) Run: clawdbot-quickstart
-  3) Try: clawdbot agent "hello world"
+  2) Run: openclaw-quickstart
+  3) Try: openclaw agent "hello world"
 
 Tips:
   - OpenCode needs a PTY: ssh -tt <user>@<host>
-  - Docs: /opt/clawdbot/README.md
+  - Docs: /opt/openclaw/README.md
 EOF
 
 if command -v waagent >/dev/null 2>&1; then
