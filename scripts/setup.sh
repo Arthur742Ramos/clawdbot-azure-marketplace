@@ -211,6 +211,16 @@ else
   warn "Missing systemd/openclaw-gateway.service (service not installed)"
 fi
 
+log "Enabling linger for existing users (keeps user services running after logout)"
+for home_dir in /home/*; do
+  [[ -d "$home_dir" ]] || continue
+  user_name="$(basename "$home_dir")"
+  if id "$user_name" &>/dev/null; then
+    loginctl enable-linger "$user_name" 2>/dev/null || \
+      warn "Could not enable linger for $user_name (may need active session)"
+  fi
+done
+
 install_motd
 
 install -d -m 0755 /var/lib/openclaw/secrets

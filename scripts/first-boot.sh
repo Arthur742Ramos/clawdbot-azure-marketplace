@@ -53,6 +53,17 @@ Tips:
   - Docs: /opt/openclaw/README.md
 EOF
 
+log "Enabling linger for all users (keeps gateway running after logout)"
+for home_dir in /home/*; do
+  [[ -d "$home_dir" ]] || continue
+  user_name="$(basename "$home_dir")"
+  if id "$user_name" &>/dev/null; then
+    loginctl enable-linger "$user_name" 2>/dev/null || \
+      warn "Could not enable linger for $user_name"
+    log "Enabled linger for $user_name"
+  fi
+done
+
 install -d -m 0755 /var/lib/openclaw
 date -u +"%Y-%m-%dT%H:%M:%SZ" > "$MARKER"
 

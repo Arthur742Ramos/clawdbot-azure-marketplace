@@ -136,13 +136,15 @@ runcmd:
 
 ## Service management
 
+The gateway runs as a user-level systemd service. Linger is automatically enabled during setup, so the service persists after logout.
+
 ```
 systemctl --user enable --now openclaw-gateway.service
 systemctl --user status openclaw-gateway.service
 journalctl --user -u openclaw-gateway.service -f
 ```
 
-To keep the gateway running after logout:
+To manually enable linger (normally not needed - setup does this automatically):
 
 ```
 sudo loginctl enable-linger $USER
